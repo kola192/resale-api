@@ -1,0 +1,292 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model agent_details {
+  id                Int       @id
+  agent_id          Int?
+  commercial_number String?   @db.VarChar(255)
+  created           DateTime? @default(now()) @db.Timestamp(0)
+  updated           DateTime? @default(now()) @db.Timestamp(0)
+  agents            agents?   @relation(fields: [agent_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_agent_details_agents_1")
+
+  @@index([agent_id], map: "fk_agent_details_agents_1")
+}
+
+model agent_users {
+  id           Int       @id
+  agent_id     Int
+  user_id      Int
+  is_main_user Boolean
+  created      DateTime? @default(now()) @db.Timestamp(0)
+  updated      DateTime? @default(now()) @db.Timestamp(0)
+  agents       agents    @relation(fields: [agent_id], references: [id], onUpdate: Restrict, map: "fk_platform_agent_users_platform_agents_1")
+  users        users     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "fk_platform_agent_users_users_1")
+
+  @@index([agent_id], map: "fk_platform_agent_users_platform_agents_1")
+  @@index([user_id], map: "fk_platform_agent_users_users_1")
+}
+
+model agents {
+  id            Int             @id
+  agent_type_id Int
+  name          String          @db.VarChar(255)
+  image         String?         @db.VarChar(255)
+  created       DateTime?       @default(now()) @db.Timestamp(0)
+  updated       DateTime?       @default(now()) @db.Timestamp(0)
+  agent_details agent_details[]
+  agent_users   agent_users[]
+  agents_types  agents_types    @relation(fields: [agent_type_id], references: [id], onUpdate: Restrict, map: "fk_platform_agents_platform_agents_types_1")
+
+  @@index([agent_type_id], map: "fk_platform_agents_platform_agents_types_1")
+}
+
+model agents_types {
+  id      Int       @id
+  name    String    @db.VarChar(255)
+  name_en String    @db.VarChar(255)
+  code    String    @db.VarChar(255)
+  created DateTime? @default(now()) @db.Timestamp(0)
+  updated DateTime? @default(now()) @db.Timestamp(0)
+  agents  agents[]
+}
+
+model bank_users {
+  id              Int      @id @default(autoincrement())
+  bank_id         Int
+  user_id         Int
+  is_main_account Boolean  @default(false)
+  created         DateTime @default(now()) @db.Timestamp(0)
+  updated         DateTime @default(now()) @db.Timestamp(0)
+  banks           banks    @relation(fields: [bank_id], references: [id], onDelete: Cascade, map: "bank_users_ibfk_1")
+  users           users    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "bank_users_ibfk_2")
+
+  @@index([bank_id], map: "bank_id")
+  @@index([user_id], map: "user_id")
+}
+
+model banks {
+  id                Int                 @id @default(autoincrement())
+  image             String?             @db.VarChar(255)
+  name              String              @db.VarChar(255)
+  created           DateTime            @default(now()) @db.Timestamp(0)
+  updated           DateTime            @default(now()) @db.Timestamp(0)
+  bank_users        bank_users[]
+  banks_inventories banks_inventories[]
+}
+
+model banks_inventories {
+  id      Int      @id @default(autoincrement())
+  bank_id Int
+  created DateTime @default(now()) @db.Timestamp(0)
+  updated DateTime @default(now()) @db.Timestamp(0)
+  banks   banks    @relation(fields: [bank_id], references: [id], onDelete: Cascade, map: "banks_inventories_ibfk_1")
+
+  @@index([bank_id], map: "bank_id")
+}
+
+model categories {
+  id               Int          @id @default(autoincrement())
+  parent_id        Int?
+  name             String       @db.VarChar(255)
+  name_en          String       @db.VarChar(255)
+  image            String       @db.VarChar(255)
+  created          DateTime     @default(now()) @db.Timestamp(0)
+  updated          DateTime     @default(now()) @db.Timestamp(0)
+  categories       categories?  @relation("categoriesTocategories", fields: [parent_id], references: [id], map: "categories_ibfk_1")
+  other_categories categories[] @relation("categoriesTocategories")
+
+  @@index([parent_id], map: "parent_id")
+}
+
+model cities {
+  id      Int       @id
+  name    String    @db.VarChar(255)
+  name_en String    @db.VarChar(255)
+  created DateTime? @default(now()) @db.Timestamp(0)
+  updated DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model customers {
+  id      Int      @id @default(autoincrement())
+  user_id Int
+  image   String?  @db.VarChar(255)
+  created DateTime @default(now()) @db.Timestamp(0)
+  updated DateTime @default(now()) @db.Timestamp(0)
+  users   users    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "customers_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
+
+model inventory_item_logs {
+  id                    Int                 @id @default(autoincrement())
+  inventory_log_type_id Int
+  inventory_item_id     Int
+  from_inventory_id     Int
+  to_inventory_id       Int
+  price                 Decimal             @default(0.00) @db.Decimal(10, 2)
+  qty                   Int                 @default(0)
+  created               DateTime            @default(now()) @db.Timestamp(0)
+  updated               DateTime            @default(now()) @db.Timestamp(0)
+  inventory_log_types   inventory_log_types @relation(fields: [inventory_log_type_id], references: [id], onDelete: NoAction, map: "inventory_item_logs_ibfk_1")
+
+  @@index([from_inventory_id], map: "from_inventory_id")
+  @@index([inventory_item_id], map: "inventory_item_id")
+  @@index([inventory_log_type_id], map: "inventory_log_type_id")
+  @@index([to_inventory_id], map: "to_inventory_id")
+}
+
+model inventory_log_types {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(255)
+  name_en             String                @db.VarChar(255)
+  code                String                @db.VarChar(255)
+  created             DateTime              @default(now()) @db.Timestamp(0)
+  updated             DateTime              @default(now()) @db.Timestamp(0)
+  inventory_item_logs inventory_item_logs[]
+}
+
+model order_details {
+  id                Int       @id
+  order_id          Int?
+  inventory_item_id Int?
+  qty               Int?
+  price             Decimal?  @db.Decimal(10, 2)
+  created           DateTime? @default(now()) @db.Timestamp(0)
+  updated           DateTime? @default(now()) @db.Timestamp(0)
+
+  @@index([inventory_item_id], map: "fk_order_details_inventory_items_1")
+  @@index([order_id], map: "fk_order_details_orders_1")
+}
+
+model order_status {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(255)
+  name_en String   @db.VarChar(255)
+  code    String   @db.VarChar(255)
+  created DateTime @default(now()) @db.Timestamp(0)
+  updated DateTime @default(now()) @db.Timestamp(0)
+}
+
+model payment_status {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(255)
+  name_en String   @db.VarChar(255)
+  code    String   @db.VarChar(255)
+  created DateTime @default(now()) @db.Timestamp(0)
+  updated DateTime @default(now()) @db.Timestamp(0)
+}
+
+model permissions {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(255)
+  name_en String   @db.VarChar(255)
+  code    String   @db.VarChar(255)
+  created DateTime @default(now()) @db.Timestamp(0)
+  updated DateTime @default(now()) @db.Timestamp(0)
+}
+
+model product_images {
+  id         Int       @id
+  product_id Int
+  image      String    @db.VarChar(255)
+  created    DateTime? @default(now()) @db.Timestamp(0)
+  updated    DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model product_location {
+  id         Int       @id
+  product_id Int
+  city_id    Int
+  address    String    @db.VarChar(255)
+  created    DateTime? @default(now()) @db.Timestamp(0)
+  updated    DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model role_permissions {
+  id            Int      @id @default(autoincrement())
+  role_id       Int
+  permission_id Int
+  created       DateTime @default(now()) @db.Timestamp(0)
+  updated       DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([permission_id], map: "permission_id")
+  @@index([role_id], map: "role_id")
+}
+
+model roles {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(255)
+  name_en String   @db.VarChar(255)
+  code    String   @db.VarChar(255)
+  created DateTime @default(now()) @db.Timestamp(0)
+  updated DateTime @default(now()) @db.Timestamp(0)
+}
+
+model suggested_categories {
+  id         Int      @id @default(autoincrement())
+  product_id Int
+  name       String   @db.VarChar(255)
+  created    DateTime @default(now()) @db.Timestamp(0)
+  updated    DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([product_id], map: "product_id")
+}
+
+model supplier_users {
+  id              Int      @id @default(autoincrement())
+  supplier_id     Int
+  user_id         Int
+  is_main_account Boolean  @default(false)
+  created         DateTime @default(now()) @db.Timestamp(0)
+  updated         DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([supplier_id], map: "supplier_id")
+  @@index([user_id], map: "user_id")
+}
+
+model suppliers {
+  id                Int      @id @default(autoincrement())
+  image             String?  @db.VarChar(255)
+  commercial_number String   @db.VarChar(255)
+  created           DateTime @default(now()) @db.Timestamp(0)
+  updated           DateTime @default(now()) @db.Timestamp(0)
+}
+
+model suppliers_inventories {
+  id          Int      @id @default(autoincrement())
+  supplier_id Int
+  created     DateTime @default(now()) @db.Timestamp(0)
+  updated     DateTime @default(now()) @db.Timestamp(0)
+}
+
+model user_roles {
+  id      Int      @id @default(autoincrement())
+  user_id Int
+  role_id Int
+  created DateTime @default(now()) @db.Timestamp(0)
+  updated DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([role_id], map: "role_id")
+  @@index([user_id], map: "user_id")
+}
+
+model users {
+  id            Int           @id @default(autoincrement())
+  name          String        @db.VarChar(255)
+  email         String        @unique(map: "email") @db.VarChar(255)
+  phone         String        @unique(map: "phone") @db.VarChar(255)
+  is_active     Boolean       @default(true)
+  refresh_token String?       @db.VarChar(255)
+  created       DateTime      @default(now()) @db.Timestamp(0)
+  updated       DateTime      @default(now()) @db.Timestamp(0)
+  agent_users   agent_users[]
+  bank_users    bank_users[]
+  customers     customers[]
+}
