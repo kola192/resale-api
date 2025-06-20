@@ -1,0 +1,24 @@
+{
+  "httpExceptions": {
+    "BadRequestException": "طلب غير صالح",
+    "UnauthorizedException": "غير مصرح به",
+    "NotFoundException": "لم يتم العثور على المورد",
+    "ForbiddenException": "غير مسموح به",
+    "NotAcceptableException": "غير مقبول",
+    "RequestTimeoutException": "انتهت مهلة الطلب",
+    "ConflictException": "تعارض",
+    "GoneException": "مغلق",
+    "HttpVersionNotSupportedException": "إصدار HTTP غير مدعوم",
+    "PayloadTooLargeException": "حمولة كبيرة جداً",
+    "UnsupportedMediaTypeException": "نوع الوسائط غير مدعوم",
+    "UnprocessableEntityException": "كيان غير قابل للمعالجة",
+    "InternalServerErrorException": "خطأ في الخادم الداخلي",
+    "NotImplementedException": "غير مطبق",
+    "ImATeapotException": "أنا إبريق شاي",
+    "MethodNotAllowedException": "الطريقة غير مسموح بها",
+    "BadGatewayException": "بوابة سيئة",
+    "ServiceUnavailableException": "الخدمة غير متوفرة",
+    "GatewayTimeoutException": "انتهت مهلة البوابة",
+    "PreconditionFailedException": "فشل الشرط المسبق"
+  }
+}

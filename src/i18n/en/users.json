@@ -1,0 +1,12 @@
+{
+  "signup": {
+    "success": "User signed up successfully."
+  },
+  "signin": {
+    "success": "Login successful."
+  },
+  "signout": {
+    "success": "Logged out successfully."
+  },
+  "password_changed": "Password changed successfully."
+}

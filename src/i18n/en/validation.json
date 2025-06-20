@@ -1,0 +1,45 @@
+{
+  "users": {
+    "user_exist": "A user with this email already exists.",
+    "user_not_found": "User not found.",
+    "invalid_login": "Invalid email or password.",
+    "invalid_current_password": "Current password is incorrect."
+  },
+  "agent_type": {
+    "not_found": "Agent type not found."
+  },
+  "user_role": {
+    "not_found": "User role found."
+  },
+  "agent_users": {
+    "is_main_user": {
+      "required": "The 'is_main_user' field is required."
+    }
+  },
+  "name": {
+    "required": "Name is required.",
+    "string": "Name must be a string."
+  },
+  "email": {
+    "required": "Email is required.",
+    "invalid": "Email must be a valid email address."
+  },
+  "phone": {
+    "required": "Phone number is required.",
+    "invalid": "Phone number must be a valid Saudi number."
+  },
+  "password": {
+    "required": "Password is required.",
+    "string": "Password must be a string."
+  },
+  "agent_type_code": {
+    "required": "Account type is required.",
+    "string": "Account type must be a string."
+  },
+  "commercial_number": {
+    "string": "Commercial number must be a string."
+  },
+  "is_main_user": {
+    "boolean": "Main user flag must be a boolean."
+  }
+}

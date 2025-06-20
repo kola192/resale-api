@@ -1,0 +1,24 @@
+{
+  "httpExceptions": {
+    "BadRequestException": "Bad Request",
+    "UnauthorizedException": "Unauthorized",
+    "NotFoundException": "Resource Not Found",
+    "ForbiddenException": "Forbidden",
+    "NotAcceptableException": "Not Acceptable",
+    "RequestTimeoutException": "Request Timeout",
+    "ConflictException": "Conflict",
+    "GoneException": "Gone",
+    "HttpVersionNotSupportedException": "HTTP Version Not Supported",
+    "PayloadTooLargeException": "Payload Too Large",
+    "UnsupportedMediaTypeException": "Unsupported Media Type",
+    "UnprocessableEntityException": "Unprocessable Entity",
+    "InternalServerErrorException": "Internal Server Error",
+    "NotImplementedException": "Not Implemented",
+    "ImATeapotException": "I'm a teapot",
+    "MethodNotAllowedException": "Method Not Allowed",
+    "BadGatewayException": "Bad Gateway",
+    "ServiceUnavailableException": "Service Unavailable",
+    "GatewayTimeoutException": "Gateway Timeout",
+    "PreconditionFailedException": "Precondition Failed"
+  }
+}
