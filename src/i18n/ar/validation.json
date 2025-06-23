@@ -5,6 +5,9 @@
     "invalid_login": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
     "invalid_current_password": "كلمة المرور الحالية غير صحيحة."
   },
+  "categories": {
+    "not_found": "الفئة غير موجودة"
+  },
   "agent_type": {
     "not_found": "نوع الوكيل غير موجود."
   },

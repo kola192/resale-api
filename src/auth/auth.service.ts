@@ -94,6 +94,25 @@ export class AuthService {
             password: hash,
             phone: createUserDto.phone,
           },
+          include: {
+            user_roles: {
+              include: {
+                roles: {
+                  include: {
+                    role_permissions: {
+                      include: {
+                        permissions: {
+                          select: {
+                            code: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         });
 
         const agent = await tx.agents.create({
@@ -121,7 +140,38 @@ export class AuthService {
           },
         });
 
-        return createdUser;
+        // return createdUser;
+        const completeUser = await tx.users.findUnique({
+          where: { id: createdUser.id },
+          include: {
+            user_roles: {
+              include: {
+                roles: {
+                  include: {
+                    role_permissions: {
+                      include: {
+                        permissions: {
+                          select: {
+                            code: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        if (!completeUser) {
+          throw new NotFoundException(
+            this.i18n.t('validation.users.user_not_found', {
+              lang: I18nContext?.current()?.lang,
+            }),
+          );
+        }
+        return completeUser;
       });
 
       // Generate tokens
@@ -164,7 +214,7 @@ export class AuthService {
                 include: {
                   role_permissions: {
                     include: {
-                      roles: {
+                      permissions: {
                         select: {
                           code: true,
                         },
@@ -220,7 +270,7 @@ export class AuthService {
                 include: {
                   role_permissions: {
                     include: {
-                      roles: {
+                      permissions: {
                         select: {
                           code: true,
                         },

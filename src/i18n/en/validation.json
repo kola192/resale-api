@@ -5,6 +5,9 @@
     "invalid_login": "Invalid email or password.",
     "invalid_current_password": "Current password is incorrect."
   },
+  "categories": {
+    "not_found": "Category not found"
+  },
   "agent_type": {
     "not_found": "Agent type not found."
   },

@@ -1,0 +1,11 @@
+{
+  "create": {
+    "success": "Category created successfully"
+  },
+  "update": {
+    "success": "Category updated successfully"
+  },
+  "delete": {
+    "success": "Category deleted successfully"
+  }
+}

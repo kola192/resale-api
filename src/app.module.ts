@@ -16,6 +16,7 @@ import {
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RolesModule } from './roles/roles.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { RolesModule } from './roles/roles.module';
     HttpModule,
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'), // Path to your static files directory
+      rootPath: join(__dirname, '..', 'public/uploads'), // Path to your static files directory
       serveRoot: '/', // URL path to access the static files
     }),
     I18nModule.forRoot({
@@ -39,6 +40,7 @@ import { RolesModule } from './roles/roles.module';
       ],
     }),
     RolesModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [
