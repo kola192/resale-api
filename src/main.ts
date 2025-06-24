@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { I18nValidationExceptionFilter, I18nValidationPipe } from 'nestjs-i18n';
-import { originList } from './shared/constatns';
+import { originList, PORT } from './shared/constatns';
 import { I18nService } from 'nestjs-i18n';
 import { I18nMiddleware } from 'nestjs-i18n';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -45,6 +45,6 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? PORT);
 }
 void bootstrap();
