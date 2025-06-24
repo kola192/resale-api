@@ -1,7 +1,7 @@
 import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 
 export class CreateCategoryDto {
   @ApiProperty({ example: 'إلكترونيات' })
@@ -16,11 +16,7 @@ export class CreateCategoryDto {
 
   @ApiPropertyOptional({ example: 1 })
   @IsOptional()
-  @Type(() => Number)
-  @IsNumber(
-    {},
-    { message: i18nValidationMessage('validation.parent_id.number') },
-  )
+  @Transform(({ value }) => parseInt(value))
   parent_id?: number;
 
   @ApiPropertyOptional({

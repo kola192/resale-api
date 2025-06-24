@@ -92,6 +92,9 @@ export class CategoriesService {
           take: limit,
           where: whereClause,
           orderBy: { created: 'desc' },
+          include: {
+            categories: true,
+          },
         }),
         this.prisma.categories.count({ where: whereClause }),
       ]);
