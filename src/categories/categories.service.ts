@@ -7,7 +7,6 @@ import { ErrorHandlingService } from 'src/shared/error-handling.service';
 import * as fs from 'fs';
 import * as path from 'path';
 import { categories } from '@prisma/client';
-
 @Injectable()
 export class CategoriesService {
   constructor(

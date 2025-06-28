@@ -20,14 +20,14 @@ import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'public', 'uploads'),
+      serveRoot: '/uploads',
+    }),
     PrismaModule,
     AuthModule,
     HttpModule,
     ConfigModule.forRoot(),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public/uploads'), // Path to your static files directory
-      serveRoot: '/', // URL path to access the static files
-    }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',
       loaderOptions: {

@@ -6,6 +6,6 @@ import { ErrorHandlingService } from 'src/shared/error-handling.service';
 
 @Module({
   controllers: [CategoriesController],
-  providers: [CategoriesService, PrismaService, ErrorHandlingService],
+  providers: [CategoriesService, ErrorHandlingService, PrismaService],
 })
 export class CategoriesModule {}
