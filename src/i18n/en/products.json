@@ -1,0 +1,21 @@
+{
+  "create": {
+    "success": "Product created successfully.",
+    "fail": "Failed to create the product.",
+    "image_required": "Main image is required.",
+    "inventory_not_found": "Inventory not found for this agent.",
+    "agent_not_found": "Agent not found for this user.",
+    "location_failed": "Failed to create product location.",
+    "image_upload_failed": "Failed to save product images."
+  },
+  "update": {
+    "success": "Product updated successfully.",
+    "fail": "Failed to update the product.",
+    "has_sale": "Cannot update this product because it has related sales."
+  },
+  "delete": {
+    "success": "Product deleted successfully.",
+    "fail": "Failed to delete the product.",
+    "has_sale": "Cannot delete this product because it has related sales."
+  }
+}

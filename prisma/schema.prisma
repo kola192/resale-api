@@ -13,23 +13,25 @@ model agent_details {
   commercial_number String?   @db.VarChar(255)
   created           DateTime? @default(now()) @db.Timestamp(0)
   updated           DateTime? @default(now()) @db.Timestamp(0)
-  agents            agents?   @relation(fields: [agent_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_agent_details_agents_1")
+  agents            agents?   @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_agent_details_agents_1")
 
   @@index([agent_id], map: "fk_agent_details_agents_1")
 }
 
 model agent_users {
-  id           Int       @id @default(autoincrement())
-  agent_id     Int
-  user_id      Int
-  is_main_user Boolean
-  created      DateTime? @default(now()) @db.Timestamp(0)
-  updated      DateTime? @default(now()) @db.Timestamp(0)
-  agents       agents    @relation(fields: [agent_id], references: [id], onUpdate: Restrict, map: "fk_platform_agent_users_platform_agents_1")
-  users        users     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "fk_platform_agent_users_users_1")
+  id                                    Int       @id @default(autoincrement())
+  agent_id                              Int
+  user_id                               Int
+  main_user_id                          Int?
+  created                               DateTime? @default(now()) @db.Timestamp(0)
+  updated                               DateTime? @default(now()) @db.Timestamp(0)
+  users_agent_users_main_user_idTousers users?    @relation("agent_users_main_user_idTousers", fields: [main_user_id], references: [id], onDelete: Cascade, map: "agent_users_ibfk_1")
+  agents                                agents    @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_platform_agent_users_platform_agents_1")
+  users                                 users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_platform_agent_users_users_1")
 
   @@index([agent_id], map: "fk_platform_agent_users_platform_agents_1")
   @@index([user_id], map: "fk_platform_agent_users_users_1")
+  @@index([main_user_id], map: "main_user_id")
 }
 
 model agents {
@@ -41,7 +43,7 @@ model agents {
   updated       DateTime?       @default(now()) @db.Timestamp(0)
   agent_details agent_details[]
   agent_users   agent_users[]
-  agents_types  agents_types    @relation(fields: [agent_type_id], references: [id], onUpdate: Restrict, map: "fk_platform_agents_platform_agents_types_1")
+  agents_types  agents_types    @relation(fields: [agent_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_platform_agents_platform_agents_types_1")
   inventories   inventories[]
   orders        orders[]
   products      products[]
@@ -87,16 +89,16 @@ model inventory_item_logs {
   id                                                             Int                 @id @default(autoincrement())
   inventory_log_type_id                                          Int
   inventory_item_id                                              Int
-  from_inventory_id                                              Int
-  to_inventory_id                                                Int
+  from_inventory_id                                              Int?
+  to_inventory_id                                                Int?
   price                                                          Decimal             @default(0.00) @db.Decimal(10, 2)
   qty                                                            Int                 @default(0)
   created                                                        DateTime            @default(now()) @db.Timestamp(0)
   updated                                                        DateTime            @default(now()) @db.Timestamp(0)
-  inventory_log_types                                            inventory_log_types @relation(fields: [inventory_log_type_id], references: [id], map: "inventory_item_logs_ibfk_1")
-  inventory_items                                                inventory_items     @relation(fields: [inventory_item_id], references: [id], map: "inventory_item_logs_ibfk_2")
-  inventories_inventory_item_logs_from_inventory_idToinventories inventories         @relation("inventory_item_logs_from_inventory_idToinventories", fields: [from_inventory_id], references: [id], map: "inventory_item_logs_ibfk_3")
-  inventories_inventory_item_logs_to_inventory_idToinventories   inventories         @relation("inventory_item_logs_to_inventory_idToinventories", fields: [to_inventory_id], references: [id], map: "inventory_item_logs_ibfk_4")
+  inventory_log_types                                            inventory_log_types @relation(fields: [inventory_log_type_id], references: [id], onDelete: NoAction, map: "inventory_item_logs_ibfk_1")
+  inventory_items                                                inventory_items     @relation(fields: [inventory_item_id], references: [id], onDelete: NoAction, map: "inventory_item_logs_ibfk_2")
+  inventories_inventory_item_logs_from_inventory_idToinventories inventories?        @relation("inventory_item_logs_from_inventory_idToinventories", fields: [from_inventory_id], references: [id], onDelete: NoAction, map: "inventory_item_logs_ibfk_3")
+  inventories_inventory_item_logs_to_inventory_idToinventories   inventories?        @relation("inventory_item_logs_to_inventory_idToinventories", fields: [to_inventory_id], references: [id], onDelete: NoAction, map: "inventory_item_logs_ibfk_4")
 
   @@index([from_inventory_id], map: "from_inventory_id")
   @@index([inventory_item_id], map: "inventory_item_id")
@@ -163,7 +165,7 @@ model product_images {
   image      String    @db.VarChar(255)
   created    DateTime? @default(now()) @db.Timestamp(0)
   updated    DateTime? @default(now()) @db.Timestamp(0)
-  products   products  @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "fk_product_images_products_1")
+  products   products  @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_images_products_1")
 
   @@index([product_id], map: "fk_product_images_products_1")
 }
@@ -175,8 +177,8 @@ model product_location {
   address    String    @db.VarChar(255)
   created    DateTime? @default(now()) @db.Timestamp(0)
   updated    DateTime? @default(now()) @db.Timestamp(0)
-  cities     cities    @relation(fields: [city_id], references: [id], onUpdate: Restrict, map: "fk_product_location_cities_1")
-  products   products  @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "fk_product_location_products_1")
+  cities     cities    @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_location_cities_1")
+  products   products  @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_product_location_products_1")
 
   @@index([city_id], map: "fk_product_location_cities_1")
   @@index([product_id], map: "fk_product_location_products_1")
@@ -231,17 +233,18 @@ model user_roles {
 }
 
 model users {
-  id            Int           @id @default(autoincrement())
-  name          String        @db.VarChar(255)
-  email         String        @unique(map: "email") @db.VarChar(255)
-  phone         String        @unique(map: "phone") @db.VarChar(255)
-  password      String        @db.VarChar(255)
-  is_active     Boolean       @default(true)
-  refresh_token String?       @db.VarChar(255)
-  created       DateTime      @default(now()) @db.Timestamp(0)
-  updated       DateTime      @default(now()) @db.Timestamp(0)
-  agent_users   agent_users[]
-  user_roles    user_roles[]
+  id                                          Int           @id @default(autoincrement())
+  name                                        String        @db.VarChar(255)
+  email                                       String        @unique(map: "email") @db.VarChar(255)
+  phone                                       String        @unique(map: "phone") @db.VarChar(255)
+  password                                    String        @db.VarChar(255)
+  is_active                                   Boolean       @default(true)
+  refresh_token                               String?       @db.VarChar(255)
+  created                                     DateTime      @default(now()) @db.Timestamp(0)
+  updated                                     DateTime      @default(now()) @db.Timestamp(0)
+  agent_users_agent_users_main_user_idTousers agent_users[] @relation("agent_users_main_user_idTousers")
+  agent_users                                 agent_users[]
+  user_roles                                  user_roles[]
 }
 
 model inventories {
@@ -249,7 +252,7 @@ model inventories {
   agent_id                                                               Int
   created                                                                DateTime              @default(now()) @db.Timestamp(0)
   updated                                                                DateTime              @default(now()) @db.Timestamp(0)
-  agents                                                                 agents                @relation(fields: [agent_id], references: [id], onUpdate: Restrict, map: "fk_inventories_agents_1")
+  agents                                                                 agents                @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_inventories_agents_1")
   inventory_item_logs_inventory_item_logs_from_inventory_idToinventories inventory_item_logs[] @relation("inventory_item_logs_from_inventory_idToinventories")
   inventory_item_logs_inventory_item_logs_to_inventory_idToinventories   inventory_item_logs[] @relation("inventory_item_logs_to_inventory_idToinventories")
   inventory_items                                                        inventory_items[]
@@ -266,8 +269,8 @@ model inventory_items {
   created             DateTime              @default(now()) @db.Timestamp(0)
   updated             DateTime              @default(now()) @db.Timestamp(0)
   inventory_item_logs inventory_item_logs[]
-  inventories         inventories           @relation(fields: [inventory_id], references: [id], map: "inventory_items_ibfk_1")
-  products            products              @relation(fields: [product_id], references: [id], map: "inventory_items_ibfk_2")
+  inventories         inventories           @relation(fields: [inventory_id], references: [id], onDelete: NoAction, map: "inventory_items_ibfk_1")
+  products            products              @relation(fields: [product_id], references: [id], onDelete: NoAction, map: "inventory_items_ibfk_2")
 
   @@index([inventory_id], map: "inventory_id")
   @@index([product_id], map: "inventory_items_ibfk_2")
@@ -281,9 +284,9 @@ model orders {
   total_price       Int
   created           DateTime       @default(now()) @db.Timestamp(0)
   updated           DateTime       @default(now()) @db.Timestamp(0)
-  agents            agents         @relation(fields: [agent_id], references: [id], onUpdate: Restrict, map: "fk_orders_agents_1")
-  payment_status    payment_status @relation(fields: [payment_status_id], references: [id], map: "orders_ibfk_2")
-  order_status      order_status   @relation(fields: [status_id], references: [id], map: "orders_ibfk_3")
+  agents            agents         @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_orders_agents_1")
+  payment_status    payment_status @relation(fields: [payment_status_id], references: [id], onDelete: NoAction, map: "orders_ibfk_2")
+  order_status      order_status   @relation(fields: [status_id], references: [id], onDelete: NoAction, map: "orders_ibfk_3")
 
   @@index([agent_id], map: "agent_id")
   @@index([payment_status_id], map: "payment_status_id")
@@ -303,7 +306,7 @@ model products {
   inventory_items      inventory_items[]
   product_images       product_images[]
   product_location     product_location[]
-  agents               agents                 @relation(fields: [supplier_id], references: [id], onUpdate: Restrict, map: "fk_products_agents_1")
+  agents               agents                 @relation(fields: [supplier_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_products_agents_1")
   categories           categories?            @relation(fields: [category_id], references: [id], map: "products_ibfk_2")
   suggested_categories suggested_categories[]
 

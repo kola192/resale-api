@@ -17,6 +17,11 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RolesModule } from './roles/roles.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ProductsModule } from './products/products.module';
+import { CitiesModule } from './cities/cities.module';
+import { InventoriesModule } from './inventories/inventories.module';
+import { InventoryItemsModule } from './inventory_items/inventory_items.module';
+import { InventoryLogTypesModule } from './inventory_log_types/inventory_log_types.module';
 
 @Module({
   imports: [
@@ -41,6 +46,11 @@ import { CategoriesModule } from './categories/categories.module';
     }),
     RolesModule,
     CategoriesModule,
+    ProductsModule,
+    CitiesModule,
+    InventoriesModule,
+    InventoryItemsModule,
+    InventoryLogTypesModule,
   ],
   controllers: [AppController],
   providers: [

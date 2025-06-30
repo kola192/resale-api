@@ -42,7 +42,21 @@
   "commercial_number": {
     "string": "يجب أن يكون الرقم التجاري نصًا."
   },
-  "is_main_user": {
-    "boolean": "يجب أن تكون قيمة المستخدم الرئيسي منطقية (true أو false)."
+  "main_user_id": {
+    "number": "يجب أن يكون معرف المستخدم الرئيسي رقمًا صالحًا."
+  },
+  "products": {
+    "city_id": "يجب أن تكون المدينة رقمًا صالحًا",
+    "category_id": "يجب أن تكون الفئة رقمًا صالحًا",
+    "is_published": "يجب أن تكون القيمة منشورة منطقية (true أو false)",
+    "image_required": "صورة المنتج مطلوبة",
+    "agent_not_found": "لم يتم العثور على الوكيل",
+    "main_agent_not_found": "لم يتم العثور على الوكيل الرئيسي",
+    "inventory_not_found": "لم يتم العثور على المخزون",
+    "name_required": "اسم المنتج مطلوب",
+    "descr_required": "وصف المنتج مطلوب",
+    "address_required": "العنوان مطلوب",
+    "price_positive": "يجب أن يكون السعر رقمًا موجبًا",
+    "qty_min": "لا يمكن أن تكون الكمية أقل من صفر"
   }
 }

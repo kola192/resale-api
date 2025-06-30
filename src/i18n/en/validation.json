@@ -42,7 +42,21 @@
   "commercial_number": {
     "string": "Commercial number must be a string."
   },
-  "is_main_user": {
-    "boolean": "Main user flag must be a boolean."
+  "main_user_id": {
+    "number": "The main user ID must be a valid number."
+  },
+  "products": {
+    "city_id": "City must be a valid number",
+    "category_id": "Category must be a valid number",
+    "is_published": "Is Published must be a boolean value",
+    "image_required": "Product image is required",
+    "agent_not_found": "Agent not found",
+    "main_agent_not_found": "Main agent not found",
+    "inventory_not_found": "Inventory not found",
+    "name_required": "Product name is required",
+    "descr_required": "Product description is required",
+    "address_required": "Address is required",
+    "price_positive": "Price must be a positive number",
+    "qty_min": "Quantity cannot be less than zero"
   }
 }

@@ -1,12 +1,13 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class AgentUsersDto {
-  @ApiPropertyOptional({ example: true })
-  @IsNotEmpty()
-  @IsBoolean({
-    message: i18nValidationMessage('validation.is_main_user.boolean'),
+  @ApiPropertyOptional({
+    example: 123,
+    description: 'Optional ID of the main user',
   })
-  is_main_user?: boolean;
+  @IsOptional()
+  @IsInt({ message: i18nValidationMessage('validation.main_user_id.number') })
+  main_user_id?: number | null;
 }

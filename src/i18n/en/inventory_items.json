@@ -1,0 +1,7 @@
+{
+  "update": {
+    "success": "Inventory item updated successfully.",
+    "not_found": "Inventory item not found.",
+    "invalid_log_type": "Invalid inventory log type."
+  }
+}

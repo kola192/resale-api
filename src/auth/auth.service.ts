@@ -76,10 +76,12 @@ export class AuthService {
           }),
         );
       }
+      // Validate main_user_id logic
+      const isMainUser = createUserDto.agent_users?.main_user_id === null;
 
-      if (createUserDto?.agent_users?.is_main_user === undefined) {
+      if (!isMainUser && !createUserDto.agent_users?.main_user_id) {
         throw new BadRequestException(
-          this.i18n.t('validation.agent_users.is_main_user.required', {
+          this.i18n.t('validation.main_user_id.number', {
             lang: I18nContext?.current()?.lang,
           }),
         );
@@ -126,7 +128,7 @@ export class AuthService {
           data: {
             user_id: createdUser.id,
             agent_id: agent.id,
-            is_main_user: createUserDto.agent_users?.is_main_user || false,
+            main_user_id: createUserDto.agent_users?.main_user_id || null,
           },
         });
 
