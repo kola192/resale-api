@@ -22,6 +22,11 @@ import { CitiesModule } from './cities/cities.module';
 import { InventoriesModule } from './inventories/inventories.module';
 import { InventoryItemsModule } from './inventory_items/inventory_items.module';
 import { InventoryLogTypesModule } from './inventory_log_types/inventory_log_types.module';
+import { existsSync } from 'fs';
+
+const i18nPath = existsSync(join(__dirname, 'i18n'))
+  ? join(__dirname, 'i18n') // in production
+  : join(process.cwd(), 'src', 'i18n'); // in development
 
 @Module({
   imports: [
@@ -36,7 +41,7 @@ import { InventoryLogTypesModule } from './inventory_log_types/inventory_log_typ
     I18nModule.forRoot({
       fallbackLanguage: 'en',
       loaderOptions: {
-        path: join(process.cwd(), 'src', 'i18n'),
+        path: i18nPath,
         watch: true,
       },
       resolvers: [
